@@ -3,6 +3,7 @@ package com.theironyard.contactsandroid;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         contactView = (ListView) findViewById(R.id.contactView);
 
         //link the ArrayAdapter with the ListView
-        contacts = new ArrayAdapter<Contact>(this, android.R.layout.simple_list_item_1);
+        contacts = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         contactView.setAdapter(contacts);
 
 
