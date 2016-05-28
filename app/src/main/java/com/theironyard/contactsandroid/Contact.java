@@ -5,8 +5,10 @@ package com.theironyard.contactsandroid;
  */
 public class Contact {
 
-    String name, phone;
+    private String name, phone;
 
+    public Contact() {
+    }
 
     public Contact(String name, String phone) {
         setName(name);

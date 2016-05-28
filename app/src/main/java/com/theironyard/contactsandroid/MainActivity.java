@@ -1,5 +1,6 @@
 package com.theironyard.contactsandroid;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemLongClickListener {
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
 
     ArrayAdapter<Contact> contacts;
     EditText nameField, phoneField;
@@ -39,10 +41,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         addButton.setOnClickListener(this);
         contactView.setOnItemLongClickListener(this);  //man..i forgot about this! Also note that it's setting the LONG CLICK. looooong click.
-
-
+        contactView.setOnItemClickListener(this);
 
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -63,4 +66,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Intent intent = new Intent(this, SingleContactActivity.class);
+        Contact contact = contacts.getItem(position);
+        intent.putExtra("CONTACTNAME", contact.getName());
+        intent.putExtra("CONTACTPHONE", contact.getPhone());
+        startActivity(intent);
+        
+    }
 }
