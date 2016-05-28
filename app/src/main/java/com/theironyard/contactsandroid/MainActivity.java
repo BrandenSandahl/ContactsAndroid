@@ -1,6 +1,8 @@
 package com.theironyard.contactsandroid;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
@@ -75,5 +79,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("CONTACTPHONE", contact.getPhone());
         startActivity(intent);
         
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        for (int i = 0; i < contacts.getCount(); i++) {   //this is how to loop through ArrayAdapters i guess
+            editor.putString(contacts.getItem(i).getName(), contacts.getItem(i).getPhone());
+        }
+        editor.commit();
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+
+        Map<String, ?> prefMap = sharedPreferences.getAll();
+
+        for(Map.Entry<String, ?> entry: prefMap.entrySet()) {
+            Contact contact = new Contact(entry.getKey(), (String) entry.getValue());
+            contacts.add(contact);
+        }
+
     }
 }
