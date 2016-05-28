@@ -1,8 +1,10 @@
 package com.theironyard.contactsandroid;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -55,6 +57,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         contacts.add(new Contact(nameField.getText().toString(), phoneField.getText().toString()));  //have to toString() here!!
+
+
+        /* DB stuff */
+        ContactDbHelper myDbHelper = new ContactDbHelper(getBaseContext());
+
+        //gets DB in Write mode
+        SQLiteDatabase db = myDbHelper.getWritableDatabase();
+
+        //create map of values
+        ContentValues values = new ContentValues();
+        values.put(ContactContract.ContactEntry.COLUMN_NAME_NAME, nameField.getText().toString());
+        values.put(ContactContract.ContactEntry.COLUMN_NAME_PHONE, phoneField.getText().toString());
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId;
+        newRowId = db.insert(
+                ContactContract.ContactEntry.TABLE_NAME,
+                null,
+                values);
+
+
         nameField.setText("");
         phoneField.setText("");
 
