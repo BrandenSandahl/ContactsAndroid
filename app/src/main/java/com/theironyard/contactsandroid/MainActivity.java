@@ -81,9 +81,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         
     }
 
+
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
 
         SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -96,8 +97,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume() {
+        super.onResume();
+
 
         SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
 
@@ -107,6 +109,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Contact contact = new Contact(entry.getKey(), (String) entry.getValue());
             contacts.add(contact);
         }
-
     }
 }
